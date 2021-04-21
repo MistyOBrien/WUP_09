@@ -77,7 +77,7 @@ Here we get that the adjusted $r^2$ is 0.94 which is the best model because $r^2
 ```{r}
 anova(fullup,best.model)
 ```
-The p-value is 0.879 showing that there is really no difference in using the model that has all of the data vs the model that only has two variables
+The p-value is 0.879 showing that there is really no difference in using the model that has all of the variables vs the model that only has two variables
 
 # Bream 
 
@@ -108,17 +108,17 @@ summary.out$which[2,]
 ```
 
 ```{r}
-best.model <- lm(Weight~Height+Width,data= Bream )
+best.model <- lm(Weight~Height+Width+Length1,data= Bream )
 fullup<-lm(Weight~., data=Bream)
 summary(best.model)
 ```
 
-The adjusted $r^2$ of height and width is 0.9334. The residual standard error of the best regression models is 53.98. 
+The adjusted $r^2$ of height, length1 and width is 0.9372. The residual standard error of the best regression models is 52.43. 
 
 ```{r}
 anova(fullup,best.model)
 ```
-The p-value is 0.4027
+The p-value is 0.8762. Since the p-value is large this shows that there is no difference between the best model which utilizes three variables and the best model which utilizes two variables.
 
 # Smelt
 
@@ -150,17 +150,18 @@ summary.out$which[2,]
 ```
 
 ```{r}
-best.model <- lm(Weight~Height+Width ,data= Smelt )
+best.model <- lm(Weight~Height+Width+Length1+Length2 ,data= Smelt )
 fullup<-lm(Weight~.,data=Smelt)
 summary(best.model)
 ```
 
-The adjusted $r^2$ of height and width is 0.9465. The residual standard error of the best regression model is 0.9555.
+The adjusted $r^2$ of height, length1, length2, and width is 0.9726. The residual standard error of the best regression model is 0.6842.
 
 ```{r}
 anova(fullup,best.model)
 ```
+The p-value is 0.6643. Since the p-value is slightly smalller here that means there is a significance difference between the best model which utilizes four variables and the best model which utilizes three variables. 
 
 # Discussion and Conclusion
 
-
+Based on automated selection of the variables there is no differences between using the model with two variables and the model with all the variables.This was identified through a graphical depiction of it the adjusted R- squared and the p-values. In conclusion comparing the P values of the two variable models vs the small P-values, we rejected the null hypothesis that these models are beneficial and predicting weight of fish. The P values associated with the anova were large and because of that we fail to  reject the null hypothesis. There is no real difference between using the model with two variables vs the full-up models.
