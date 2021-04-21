@@ -54,7 +54,7 @@ as.data.frame(summary.out$outmat)
 subsets(regsubsets.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2")
 ```
   
-From the plot above we see that the two best regression model is height and width. The model of height and width are the adjusted $r^2$ of about 0.9400. 
+From the plot above we see that the best regression model is height and width. The model of height and width are the adjusted $r^2$ of about 0.9400. 
 
 ## Which is best??  
 
@@ -66,13 +66,18 @@ summary.out$which[2,]
 ```
 
 ```{r}
-PerchModel <- lm(Weight~Height+Width ,data= Perch )
-summary.lm(PerchModel)
+best.model <- lm(Weight~Height+Width ,data= Perch )
+fullup<-lm(Weight~., data=Perch)
+summary(best.model)
 ```
 
-Here we get that the adjusted $r^2$ is 0.94 which is the best model because $r^2$ is the highest. The residual standard error is 85.17. 
+Here we get that the adjusted $r^2$ is 0.94 which is the best model because $r^2$ is the highest. The residual standard error is 85.17. The p-value is small here showing that the model is a good fit.
 
 
+```{r}
+anova(fullup,best.model)
+```
+The p-value is 0.879 showing that there is really no difference in using the model that has all of the data vs the model that only has two variables
 
 # Bream 
 
@@ -91,7 +96,7 @@ as.data.frame(summary.out$outmat)
 subsets(regsubsets.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2")
 ```
   
-From the plot above we see that the three best regression model is Length1, width, and height . The model of height, width, and length1 are the adjusted $r^2$ of about 0.940. 
+From the plot above we see that the best regression model is Length1, width, and height . The model of height, width, and length1 are the adjusted $r^2$ of about 0.940. 
 
 ## Which is best??  
 
@@ -103,12 +108,59 @@ summary.out$which[2,]
 ```
 
 ```{r}
-BreamModel <- lm(Weight~Height+Length2 ,data= Bream )
-summary.lm(BreamModel)
+best.model <- lm(Weight~Height+Width,data= Bream )
+fullup<-lm(Weight~., data=Bream)
+summary(best.model)
 ```
 
-The adjusted $r^2$ of height and length2 is 0.9356. The residual standard error of the two best regression models is 53.1. 
+The adjusted $r^2$ of height and width is 0.9334. The residual standard error of the best regression models is 53.98. 
+
+```{r}
+anova(fullup,best.model)
+```
+The p-value is 0.4027
 
 # Smelt
+
+
+```{r}
+library(leaps)
+regsubsets.out <-
+    regsubsets(Weight ~ .,
+               data = Smelt,
+               nbest = 1,       # 1 best model for each number of predictors
+               nvmax = NULL,    # NULL for no limit on number of variables
+               force.in = NULL, force.out = NULL,
+               method = "exhaustive")
+
+summary.out <- summary(regsubsets.out)
+as.data.frame(summary.out$outmat)
+subsets(regsubsets.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2")
+```
+  
+From the plot above we see that the best regression model is Length1, Length2, width, and height. The model of height, width, and length1 are the adjusted $r^2$ of about 0.940. 
+
+## Which is best??  
+
+```{r}
+which.max(summary.out$adjr2)
+```
+```{r}
+summary.out$which[2,]
+```
+
+```{r}
+best.model <- lm(Weight~Height+Width ,data= Smelt )
+fullup<-lm(Weight~.,data=Smelt)
+summary(best.model)
+```
+
+The adjusted $r^2$ of height and width is 0.9465. The residual standard error of the best regression model is 0.9555.
+
+```{r}
+anova(fullup,best.model)
+```
+
+# Discussion and Conclusion
 
 
